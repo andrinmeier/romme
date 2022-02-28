@@ -3,7 +3,7 @@ site:
   url: https://docs.playromme.com
 content:
   sources: 
-  - url: ./
+  - url: https://github.com/andrinmeier/romme.git
     branches: HEAD
     start_path: docs
 ui: 
