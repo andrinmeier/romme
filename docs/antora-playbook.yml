@@ -3,7 +3,7 @@ site:
   url: https://docs.playromme.com
 content:
   sources: 
-  - url: ../
+  - url: /
     branches: HEAD
     start_path: docs
 ui: 
