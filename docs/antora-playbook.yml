@@ -1,0 +1,12 @@
+site:
+  title: Romme
+  url: https://docs.playromme.com
+content:
+  sources: 
+  - url: ../
+    branches: HEAD
+    start_path: docs
+ui: 
+  bundle:
+    url: ./ui-bundle
+    snapshot: true
