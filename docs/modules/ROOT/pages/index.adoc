@@ -2,8 +2,6 @@
 :description: An online multiplayer version of Romme.
 :page-tags: romme
 
-Welcome
+== Introduction
 
-== First title
-
-Test deployment.
+This is the documentation site for https://playromme.com[Play Romme!].
