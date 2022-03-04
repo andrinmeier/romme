@@ -1,4 +1,4 @@
-= Romme rules
+= How to play
 :description: How to play Romme.
 :page-tags: romme
 
