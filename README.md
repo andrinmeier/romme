@@ -1,3 +1,4 @@
+![Webapplication](https://github.com/andrinmeier/romme/actions/workflows/webapp.yml/badge.svg)
 ![Documentation](https://github.com/andrinmeier/romme/actions/workflows/docs.yml/badge.svg)
 
 
