@@ -9,6 +9,8 @@ import {
   ScrollRestoration,
 } from "remix";
 import type { MetaFunction } from "remix";
+import NavBar from "./routes/common/NavBar";
+import Footer from "./routes/common/Footer";
 
 export const meta: MetaFunction = () => {
   return { title: "Play Rommé!" };
@@ -33,9 +35,18 @@ export default function App() {
         <meta name="theme-color" content="#ffffff" />
         <Meta />
         <Links />
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,900;1,400;1,900&display=swap');
+        </style>
       </head>
-      <body>
-        <Outlet />
+      <body className="h-screen">
+        <div className="min-h-full px-5 bg-black text-white flex flex-col">
+          <NavBar />
+          <main className="flex-1 mx-36">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

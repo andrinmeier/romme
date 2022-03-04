@@ -1,0 +1,9 @@
+const JoinGamePage = () => {
+    return (
+        <main>
+            <h1>New Game2!</h1>
+        </main>
+    );
+}
+
+export default JoinGamePage;
