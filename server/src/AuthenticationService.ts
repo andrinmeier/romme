@@ -18,8 +18,7 @@ export class AuthenticationService {
             throw new Errors.BadRequestError("The username is too short. Make sure to pick a name that is between 2 and 20 characters and only includes numbers, lower and uppercase letters.");
         }
         const secretKey = process.env.ROMME_JWT_SECRET_KEY;
-        const userId = uuidParse(uuidv4());
-        const token = jwt.sign({ userId: userId, username: user }, secretKey, { expiresIn: '7 days' });
+        const token = jwt.sign({ userId: uuidv4(), username: user }, secretKey, { expiresIn: '7 days' });
         const response = new AuthenticationResponse();
         response.token = token;
         return response;
