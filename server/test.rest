@@ -1,4 +1,5 @@
-@host = http://localhost:8080
+#@host = http://localhost:8080
+@host = https://api.playromme.com
 
 ### Test players endpoint
 POST {{host}}/players HTTP/1.1
