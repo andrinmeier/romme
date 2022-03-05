@@ -5,6 +5,7 @@ import { AuthenticationService } from "./AuthenticationService";
 let app: express.Application = express();
 Server.buildServices(app, AuthenticationService);
 
-app.listen(process.env.PORT, function () {
-    console.log('Rest Server listening on port ' + process.env.PORT);
+const port = process.env.port || 8080;
+app.listen(port, function () {
+    console.log('Rest Server listening on port ' + port);
 });

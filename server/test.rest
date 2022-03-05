@@ -1,0 +1,9 @@
+@host = http://localhost:8080
+
+### Test players endpoint
+POST {{host}}/players HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "myname"
+}

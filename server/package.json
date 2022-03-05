@@ -6,13 +6,10 @@
   "scripts": {
     "tsc": "tsc",
     "start": "ts-node src/index.ts",
+    "dev": "cross-env ROMME_JWT_SECRET_KEY=dummyKey ts-node src/index.ts",
     "start:in:docker": "node dist/src/index.js",
-    "start:cluster": "ts-node src/cluster.ts",
     "build": "npm install ts-node -g && npm run clean && tsc",
-    "clean": "rimraf dist",
-    "lint": "tslint ./src/**/*.ts ./test/**/*.ts",
-    "lint:fix": "tslint --fix ./src/**/*.ts ./test/**/*.ts -t verbose",
-    "pretest": "cross-env NODE_ENV=test npm run build && npm run lint"
+    "clean": "rimraf dist"
   },
   "author": "",
   "license": "MIT",
@@ -23,7 +20,10 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^8.5.8",
+    "cross-env": "^7.0.3",
     "jsonwebtoken": "^8.5.1",
-    "typescript-rest": "^3.0.4"
+    "typescript-rest": "^3.0.4",
+    "uuid": "^8.3.2"
   }
 }
