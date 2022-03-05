@@ -11,6 +11,7 @@ import {
 import type { MetaFunction } from "remix";
 import NavBar from "./common/NavBar";
 import Footer from "./common/Footer";
+import { useLoaderData } from "remix";
 
 export const meta: MetaFunction = () => {
   return { title: "Play Rommé!" };
@@ -20,7 +21,16 @@ export function links() {
   return [{ rel: "stylesheet", href: styles }];
 }
 
+export async function loader() {
+  return {
+    ENV: {
+      API_URL: process.env.API_URL
+    }
+  };
+}
+
 export default function App() {
+  const data = useLoaderData();
   return (
     <html lang="en">
       <head>
@@ -48,6 +58,13 @@ export default function App() {
           <Footer />
         </div>
         <ScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(
+              data.ENV
+            )}`,
+          }}
+        />
         <Scripts />
         <LiveReload />
       </body>

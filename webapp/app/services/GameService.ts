@@ -4,7 +4,7 @@ export class GameService {
     async createGame(): Promise<string> {
         let url = "";
         try {
-            url = process.env.API_URL!;
+            url = (window as any).ENV.API_URL!;
         } catch {
             url = "http://localhost:8080";
         }
