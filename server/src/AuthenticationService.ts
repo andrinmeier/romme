@@ -2,7 +2,7 @@ import { Errors, Path, POST } from "typescript-rest";
 import jwt from 'jsonwebtoken';
 import { AuthenticationRequest } from "./AuthenticationRequest";
 import { AuthenticationResponse } from "./AuthenticationResponse";
-import { v4 as uuidv4, parse as uuidParse } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 @Path("/players")
 export class AuthenticationService {

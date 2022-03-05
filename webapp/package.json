@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run build:css && cross-env NODE_ENV=production remix build",
     "build:css": "tailwindcss -i ./app/styles/global.css -o ./app/tailwind.css",
-    "dev": "concurrently \"npm run dev:css\" \"cross-env NODE_ENV=development remix dev\"",
+    "dev": "concurrently \"npm run dev:css\" \"cross-env NODE_ENV=development API_URL=http://localhost:8080 remix dev\"",
     "dev:css": "tailwindcss -i ./app/styles/global.css -o ./app/tailwind.css --watch",
     "deploy": "fly deploy --remote-only",
     "postinstall": "remix setup node",
@@ -18,10 +18,12 @@
     "@remix-run/serve": "^1.2.3",
     "axios": "^0.26.0",
     "cross-env": "^7.0.3",
+    "game-events": "file:../game-events",
     "jwt-decode": "^3.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "remix": "^1.2.3"
+    "remix": "^1.2.3",
+    "socket.io-client": "^4.4.1"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.2.3",

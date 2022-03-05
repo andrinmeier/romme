@@ -15,13 +15,12 @@ export class AuthenticationService {
         return this.userInfo;
     }
 
+    getToken(): string | null {
+        return localStorage.getItem("token");
+    }
+
     async authenticate(username: string): Promise<void> {
-        let url = "";
-        try {
-            url = (window as any).ENV.API_URL!;
-        } catch {
-            url = "http://localhost:8080";
-        }
+        const url = (window as any).ENV.API_URL!;
         const response = await axios.post(url + "/players", { username: username });
         const token = response.data.token;
         this.userInfo = this.parseToken(token);
@@ -43,7 +42,7 @@ export class AuthenticationService {
     }
 
     private loadExistingToken() {
-        const token = localStorage.getItem("token");
+        const token = this.getToken();
         if (!token) {
             return false;
         }
