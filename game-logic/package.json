@@ -2,11 +2,15 @@
   "name": "romme-game-logic",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "tsc": "tsc",
     "build": "npm run clean && tsc",
     "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "game-events": "file:../game-events"
   },
   "author": "Andrin Meier",
   "license": "MIT",
