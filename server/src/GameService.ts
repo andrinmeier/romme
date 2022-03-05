@@ -1,7 +1,7 @@
 import { Path, POST } from "typescript-rest";
 import { v4 as uuidv4, parse as uuidParse } from 'uuid';
 import { GameCreatedResponse } from "./GameCreatedResponse";
-import base32Encode from 'base32-encode';
+import base32Encode from "./utils/Base32Encode";
 
 @Path("/games")
 export class GameService {
