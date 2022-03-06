@@ -17,7 +17,7 @@ FROM base
 WORKDIR /usr/src/server
 COPY --from=shareddeps /usr/src/game-events /usr/src/game-events
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 COPY . .
 RUN npm install -g rimraf@latest typescript@latest && npm run build
 EXPOSE 8080
