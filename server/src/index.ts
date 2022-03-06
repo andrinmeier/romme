@@ -7,7 +7,7 @@ import { Server as SocketServer } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import { GameEventType, PlayerJoined } from "game-events";
 
-let app: express.Application = express();
+const app: express.Application = express();
 app.use(cors());
 Server.buildServices(app, AuthenticationService, GameService);
 
