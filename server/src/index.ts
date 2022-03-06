@@ -5,7 +5,7 @@ import { GameService } from "./GameService";
 import cors from "cors";
 import { Server as SocketServer } from 'socket.io';
 import jwt from 'jsonwebtoken';
-import { GameEventType, PlayerJoined } from "game-events";
+import { IGameEvents } from "game-events";
 
 const app: express.Application = express();
 app.use(cors());
@@ -15,7 +15,7 @@ const port = process.env.port || 8080;
 const server = app.listen(Number(port), '0.0.0.0', function () {
     console.log('Rest Server listening on port ' + port);
 });
-const io = new SocketServer(server, {
+const io = new SocketServer<IGameEvents, IGameEvents, IGameEvents>(server, {
     cors: {
         origin: "*"
     }
@@ -40,8 +40,8 @@ parent.use(function (socket, next) {
 });
 
 parent.on("connection", (socket) => {
-    console.log("Connected!");
-    socket.on(GameEventType.PLAYER_JOINED.toString(), (event: PlayerJoined) => {
-        console.log({ event });
+    socket.on("playerJoined", (event) => {
+        // broadcast = only send the event to players excluding the original sender.
+        socket.broadcast.emit("playerJoined", event);
     });
 });
