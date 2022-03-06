@@ -1,11 +1,10 @@
 ![Server](https://github.com/andrinmeier/romme/actions/workflows/server.yml/badge.svg)
 ![Webapplication](https://github.com/andrinmeier/romme/actions/workflows/webapp.yml/badge.svg)
 ![Documentation](https://github.com/andrinmeier/romme/actions/workflows/docs.yml/badge.svg)
-
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![Join the chat at https://gitter.im/andrinmeier/romme](https://badges.gitter.im/andrinmeier/romme.svg)](https://gitter.im/andrinmeier/romme?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # Rommé
-
-[![Join the chat at https://gitter.im/andrinmeier/romme](https://badges.gitter.im/andrinmeier/romme.svg)](https://gitter.im/andrinmeier/romme?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 The popular card game romme (also known as rummy) implemented as a web application with multiplayer support. See: playromme.com.
 
