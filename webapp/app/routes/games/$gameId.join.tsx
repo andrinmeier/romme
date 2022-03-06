@@ -1,9 +1,11 @@
 import { LoaderFunction, useLoaderData } from "remix";
 import { AuthenticationService } from "~/services/AuthenticationService";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
-import { GameEventType, PlayerJoined } from "game-events";
+import { useCallback, useEffect, useState } from "react";
+import { io, Socket } from "socket.io-client";
+import { PlayerJoined } from "game-events";
+import { UserInfo } from "~/services/UserInfo";
+import { IGameEvents } from "game-events";
 
 export const loader: LoaderFunction = async ({
     params,
@@ -15,7 +17,16 @@ const authService = new AuthenticationService();
 const JoinGamePage = () => {
     const gameId = useLoaderData();
     const navigate = useNavigate();
-    const [user, setUser] = useState("");
+    const [user, setUser] = useState<UserInfo | undefined>(undefined);
+    const [participants, setParticipants] = useState<string[]>([]);
+
+    const handlePlayerJoined = useCallback((playerJoined: PlayerJoined) => {
+        setParticipants(oldParticipants => {
+            const newParticipants = [...oldParticipants];
+            newParticipants.push(playerJoined.playerName);
+            return newParticipants;
+        });
+    }, []);
 
     useEffect(() => {
         if (!authService.isAuthenticated()) {
@@ -23,11 +34,12 @@ const JoinGamePage = () => {
             return;
         }
         const userInfo = authService.getUserInfo();
-        if (userInfo) {
-            setUser(userInfo.username);
+        if (!userInfo) {
+            return;
         }
+        setUser(userInfo);
         const token = authService.getToken();
-        const socket = io(`${(window as any).ENV.API_URL!}/games/${gameId}`, {
+        const socket: Socket<IGameEvents, IGameEvents> = io(`${(window as any).ENV.API_URL!}/games/${gameId}`, {
             auth: {
                 token: token
             }
@@ -38,13 +50,28 @@ const JoinGamePage = () => {
         socket.on("connect_error", (err) => {
             console.log(err.message);
         });
-        socket.emit(GameEventType.PLAYER_JOINED.toString(), JSON.stringify(new PlayerJoined("123", "myname")));
+        socket.emit("playerJoined", new PlayerJoined(userInfo?.userId, userInfo.username));
+        socket.on("playerJoined", handlePlayerJoined);
         return () => { socket.disconnect(); }
-    }, [gameId, navigate]);
+    }, [gameId, navigate, handlePlayerJoined]);
+
+    useEffect(() => {
+        if (!user) {
+            return;
+        }
+        setParticipants(oldParticipants => {
+            const newParticipants = [...oldParticipants];
+            newParticipants.push(user.username);
+            return newParticipants;
+        });
+    }, [user]);
 
     return (
-        <div>
-            <h1 className="text-red">Hello {user}</h1>
+        <div className="flex-1 mx-96">
+            <h1 className="text-white text-4xl">Waiting room</h1>
+            {participants.map(p => {
+                return <p key={p}>{p}</p>
+            })}
             <h2>Give this link to your friends so they can join:</h2>
             <input className="w-full" value={`https://playromme.com/games/${gameId}/join`} readOnly={true} type="text" />
         </div>

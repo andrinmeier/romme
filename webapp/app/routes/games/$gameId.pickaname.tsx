@@ -28,12 +28,14 @@ const PickAName = () => {
     }, [username, navigate, gameId]);
 
     return (
-        <div>
-            <label className="block text-red text-3xl font-bold mb-2" htmlFor="username">
-                Pick a player name:
-            </label>
-            <input onChange={onUsernameChange} id="username" value={username} type="text" placeholder="Username" />
-            <button onClick={join} className="btn">Join</button>
+        <div className="flex-1 flex flex-col place-content-center">
+            <div className="mx-auto">
+                <label className="mx-auto block text-white text-3xl font-bold mb-2" htmlFor="username">
+                    Pick a name
+                </label>
+                <input className="" onChange={onUsernameChange} id="username" value={username} type="text" placeholder="Username" />
+                <button className="btn ml-2 max-w-md" onClick={join}>Join</button>
+            </div>
         </div>
     )
 }
