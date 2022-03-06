@@ -8,7 +8,8 @@
     "start": "ts-node src/index.ts",
     "dev": "cross-env ROMME_JWT_SECRET_KEY=dummyKey ts-node src/index.ts",
     "start:in:docker": "node dist/src/index.js",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && npm run build-game-events && tsc",
+    "build-game-events": "cd ../game-events && npm run build && cd ../server",
     "clean": "rimraf dist"
   },
   "author": "",

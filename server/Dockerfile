@@ -1,5 +1,7 @@
 FROM node:16
-WORKDIR /usr/src/app
+WORKDIR /usr/src/server
+RUN git clone https://github.com/andrinmeier/romme /usr/src/romme
+RUN cp -R /usr/src/romme/game-events /usr/src/game-events
 COPY package*.json ./
 RUN npm ci --only=production
 COPY . .
