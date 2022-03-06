@@ -51,7 +51,7 @@ export default function base32Encode(data, variant, options?) {
     let bits = 0;
     let value = 0;
     let output = "";
-    // test
+    // test2
     for (let i = 0; i < view.byteLength; i++) {
         value = (value << 8) | view.getUint8(i);
         bits += 8;
