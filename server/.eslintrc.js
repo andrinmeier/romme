@@ -9,6 +9,7 @@ module.exports = {
         "prettier"
     ],
     rules: {
+        "no-control-regex": 0,
         "prettier/prettier": [
             "error",
             {
