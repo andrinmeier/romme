@@ -6,7 +6,6 @@
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "outDir": "dist",
-        "types": ["@types/jest"]
+        "outDir": "dist"
     }
 }
