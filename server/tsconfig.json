@@ -1,11 +1,12 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2017",
-    "rootDir": "./",
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "outDir": "dist"
-  }
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2017",
+        "rootDir": "./",
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "outDir": "dist",
+        "types": ["@types/jest"]
+    }
 }
