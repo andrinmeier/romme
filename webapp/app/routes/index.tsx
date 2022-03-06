@@ -15,18 +15,13 @@ const IndexPage = () => {
   }, [navigate]);
 
   return (
-    <>
-      <div className="flex justify-center">
-        <h1 className="flex justify-center font-bold text-5xl">Play Rommé in your Browser for free!</h1>
+    <main className="flex-1 flex flex-col place-content-center">
+      <h1 className="mx-auto font-bold text-5xl">Play Rommé in your Browser for free!</h1>
+      <button onClick={startGame} className="btn mt-10 max-w-md mx-auto">Start game</button>
+      <div className="mx-auto mt-14 text-2xl">
+        <h2>First time playing?&nbsp;</h2><a className="link" target="_blank" rel="noreferrer" href="https://docs.playromme.com/main/stable/how_to_play.html">Learn how to play</a>
       </div>
-      <div className="flex justify-center">
-        <button onClick={startGame} className="btn mt-10">Start game</button>
-      </div>
-      <div className="flex justify-center text-2xl mt-10">
-        <h2>First time playing?&nbsp;</h2>
-        <a target="_blank" rel="noreferrer" href="https://docs.playromme.com/main/stable/how_to_play.html" className="link">Learn how to play</a>
-      </div>
-    </>
+    </main>
   );
 }
 

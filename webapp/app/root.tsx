@@ -52,9 +52,7 @@ export default function App() {
       <body className="h-screen">
         <div className="min-h-full px-5 bg-black text-white flex flex-col">
           <NavBar />
-          <main className="flex-1 mx-36">
-            <Outlet />
-          </main>
+          <Outlet />
           <Footer />
         </div>
         <ScrollRestoration />
