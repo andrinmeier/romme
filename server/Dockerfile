@@ -1,15 +1,15 @@
 FROM node:16-bullseye-slim as base
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install --no-install-recommends -y git=2.35.1 \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 # Build shared libraries
 FROM base as shareddeps
 # We clone the entire repository. An alternative would be to use the "sparse" features
 # of git, but not all git versions support this.
-RUN git clone https://github.com/andrinmeier/romme /usr/src/romme
-RUN cp -R /usr/src/romme/game-events /usr/src/game-events
+RUN git clone https://github.com/andrinmeier/romme /usr/src/romme && cp -R /usr/src/romme/game-events /usr/src/game-events
 WORKDIR /usr/src/game-events
-RUN npm install
-RUN npm run build
+RUN npm install && npm run build
 
 FROM base
 WORKDIR /usr/src/server
