@@ -1,6 +1,6 @@
 FROM node:16-bullseye-slim as base
 RUN apt-get update \
- && apt-get install --reinstall -y ca-certificates \
+ && apt-get install --reinstall -y --no-install-recommends ca-certificates=20210119 \
  && apt-get install --no-install-recommends -y git=1:2.30.2-1 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
