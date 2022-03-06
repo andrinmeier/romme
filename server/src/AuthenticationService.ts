@@ -15,7 +15,7 @@ export class AuthenticationService {
             );
         }
         // Try to prevent unicode shenanigans by only allowing a very small subset to be used.
-        user = user.replace(/[^\x30-\x30\x41-\x5A\x61-\x7A]/g, "");
+        user = user.replace(/[^\x30-\x39\x41-\x5A\x61-\x7A]/g, "");
         if (user.length < 2) {
             throw new Errors.BadRequestError(
                 "The username is too short. Make sure to pick a name that is between 2 and 20 characters and only includes numbers, lower and uppercase letters."
