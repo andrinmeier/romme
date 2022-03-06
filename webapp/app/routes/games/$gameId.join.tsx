@@ -67,7 +67,7 @@ const JoinGamePage = () => {
     }, [user]);
 
     return (
-        <div className="flex-1 mx-96">
+        <div className="flex-1 lg:mx-80">
             <h1 className="text-white text-4xl">Waiting room</h1>
             {participants.map(p => {
                 return <p key={p}>{p}</p>
