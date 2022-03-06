@@ -1,5 +1,5 @@
 FROM node:16-bullseye-slim as base
-RUN apt-get update && apt-get install --no-install-recommends -y git=2.35.1 \
+RUN apt-get update && apt-get install --no-install-recommends -y git=1:2.30.2-1 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
