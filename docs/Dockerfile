@@ -17,7 +17,7 @@ RUN git config --global user.name "romme-docs build"
 RUN ["touch", ".gitignore"]
 RUN ["git", "add", ".gitignore"]
 RUN ["git", "commit", "-m", "initialize repository"]
-
+RUN npm i asciidoctor-kroki
 RUN ["antora", "antora-playbook.yml"]
 
 FROM pierrezemb/gostatic

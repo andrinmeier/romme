@@ -1,3 +1,4 @@
 * xref:index.adoc[Romme]
-* xref:vision.adoc[Vision]
 * xref:how_to_play.adoc[How to play]
+* xref:vision.adoc[Vision]
+* xref:domain_model.adoc[Domain model]
