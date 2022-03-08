@@ -1,8 +1,8 @@
 const GameScorePage = () => {
     return (
-        <main>
-            <h1>New Game2!</h1>
-        </main>
+        <div className="flex-1">
+            <h1>Score:</h1>
+        </div>
     );
 };
 
