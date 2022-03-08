@@ -21,7 +21,9 @@ export class AuthenticationService {
 
     async authenticate(username: string): Promise<void> {
         const url = (window as any).ENV.API_URL!;
-        const response = await axios.post(url + "/players", { username: username });
+        const response = await axios.post(url + "/players", {
+            username: username
+        });
         const token = response.data.token;
         this.userInfo = this.parseToken(token);
         this.storeToken(token);
