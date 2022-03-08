@@ -18,6 +18,10 @@ const JoinGamePage = () => {
     const [user, setUser] = useState<UserInfo | undefined>(undefined);
     const [participants, setParticipants] = useState<string[]>([]);
 
+    const startGame = useCallback(() => {
+        navigate(`/games/${gameId}/inprogress`);
+    }, [gameId, navigate]);
+
     const handlePlayerJoined = useCallback((playerJoined: PlayerJoined) => {
         setParticipants((oldParticipants) => {
             const newParticipants = [...oldParticipants];
@@ -45,7 +49,7 @@ const JoinGamePage = () => {
                 }
             }
         );
-        socket.on("connection", (socket) => {
+        socket.on("connection", (socket: any) => {
             console.log("Connected!");
         });
         socket.on("connect_error", (err) => {
@@ -74,11 +78,16 @@ const JoinGamePage = () => {
 
     return (
         <div className="flex-1 lg:mx-80">
-            <h1 className="text-white text-4xl">Waiting room</h1>
+            <h1 className="text-white text-4xl mb-2">
+                Waiting room (max. 4 players)
+            </h1>
             {participants.map((p) => {
                 return <p key={p}>{p}</p>;
             })}
-            <h2>Give this link to your friends so they can join:</h2>
+            <button className="btn mt-5" onClick={startGame}>
+                Start
+            </button>
+            <h2 className="mt-16">Share to let your friends join:</h2>
             <input
                 className="w-full"
                 value={`https://playromme.com/games/${gameId}/join`}

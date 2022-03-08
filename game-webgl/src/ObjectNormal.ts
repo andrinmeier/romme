@@ -1,9 +1,9 @@
-export class ObjectPosition {
+export class ObjectNormal {
     private readonly id: any;
     private readonly buffer: any;
 
     constructor(readonly context: any, shaderProgram: any) {
-        this.id = context.getAttribLocation(shaderProgram, "position");
+        this.id = context.getAttribLocation(shaderProgram, "normal");
         this.buffer = context.createBuffer();
     }
 

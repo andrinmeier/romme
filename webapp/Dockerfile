@@ -13,12 +13,17 @@ RUN cp -R /romme/game-events /game-events
 WORKDIR /game-events
 RUN npm install
 RUN npm run build
+RUN cp -R /romme/game-webgl /game-webgl
+WORKDIR /game-webgl
+RUN npm install
+RUN npm run build
 
 # Install all node_modules, including dev dependencies
 FROM base as deps
 RUN mkdir /webapp
 WORKDIR /webapp
 COPY --from=shareddeps /game-events /game-events
+COPY --from=shareddeps /game-webgl /game-webgl
 ADD package.json package-lock.json ./
 RUN npm install --production=false
 
@@ -27,6 +32,7 @@ FROM base as production-deps
 RUN mkdir /webapp
 WORKDIR /webapp
 COPY --from=shareddeps /game-events /game-events
+COPY --from=shareddeps /game-webgl /game-webgl
 COPY --from=deps /webapp/node_modules /webapp/node_modules
 ADD package.json package-lock.json ./
 RUN npm prune --production
@@ -37,6 +43,7 @@ ENV NODE_ENV=production
 RUN mkdir /webapp
 WORKDIR /webapp
 COPY --from=shareddeps /game-events /game-events
+COPY --from=shareddeps /game-webgl /game-webgl
 COPY --from=deps /webapp/node_modules /webapp/node_modules
 ADD . .
 RUN npm run build
@@ -49,6 +56,7 @@ WORKDIR /webapp
 # We have to copy over the shared libraries everywhere because "npm install" only installs local packages
 # as symlinks. We could just build tarballs but that would add additional complexity.
 COPY --from=shareddeps /game-events /game-events
+COPY --from=shareddeps /game-webgl /game-webgl
 COPY --from=production-deps /webapp/node_modules /webapp/node_modules
 COPY --from=build /webapp/build /webapp/build
 COPY --from=build /webapp/public /webapp/public

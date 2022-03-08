@@ -1,16 +1,31 @@
 export class ObjectColor {
-    private readonly colorId: any;
-    private color: number[];
+    private readonly id: any;
+    private readonly buffer: any;
 
     constructor(readonly context: any, shaderProgram: any) {
-        this.colorId = context.getUniformLocation(shaderProgram, "color");
+        this.id = context.getAttribLocation(shaderProgram, "color");
+        this.buffer = context.createBuffer();
     }
 
-    setColor(color: number[]) {
-        this.color = color;
+    setValues(values: number[]) {
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+        this.context.bufferData(
+            this.context.ARRAY_BUFFER,
+            new Float32Array(values),
+            this.context.STATIC_DRAW
+        );
     }
 
     activate() {
-        this.context.uniform3fv(this.colorId, new Float32Array(this.color));
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+        this.context.vertexAttribPointer(
+            this.id,
+            2,
+            this.context.FLOAT,
+            false,
+            0,
+            0
+        );
+        this.context.enableVertexAttribArray(this.id);
     }
 }
