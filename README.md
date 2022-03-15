@@ -44,3 +44,5 @@ There are only events leading to a current state.
 The entirety of playromme.com including the documentation site and web application is hosted on [Fly](https://fly.io/).
 There are interesting ramifications due to this choice of hosting provider. Since fly.io automatically scales containers up and down depending on demand,
 we can't assume that all players are connected to the same server for relaying messages using websockets. That's why we're using redis streams.
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/andrinmeier)
