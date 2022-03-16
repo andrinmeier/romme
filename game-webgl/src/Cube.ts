@@ -335,12 +335,19 @@ export class Cube {
     draw() {
         const modelMatrix = mat4.create();
         mat4.translate(modelMatrix, modelMatrix, this.location);
-        mat4.rotate(
-            modelMatrix,
-            modelMatrix,
-            this.alignment[0].rad,
-            this.alignment[1]
-        );
+        if (
+            this.alignment[1][0] !== 0 ||
+            this.alignment[1][1] !== 0 ||
+            this.alignment[1][2] !== 0
+        ) {
+            console.log(this.alignment[1]);
+            mat4.rotate(
+                modelMatrix,
+                modelMatrix,
+                this.alignment[0].rad,
+                this.alignment[1]
+            );
+        }
         mat4.scale(modelMatrix, modelMatrix, this.size);
         const matrixId = this.context.getUniformLocation(
             this.shaderProgram,
@@ -351,7 +358,7 @@ export class Cube {
         const bufferSides = this.defineSides();
         const bufferColors = this.defineColors(
             this.color,
-            this.color,
+            [this.color[0] * 0.7, this.color[1] * 0.7, this.color[2] * 0.7],
             this.color,
             this.color,
             this.color,

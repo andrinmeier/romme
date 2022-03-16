@@ -14,8 +14,8 @@ export class Room implements ISceneObject {
     constructor(private readonly cube: Cube) {
         this.leftWall = new Wall(
             cube,
-            [256, 256, 1],
-            [0, 0, 0],
+            [256, 256, 0],
+            [0, 0, -1],
             [Angle.fromDegrees(90), [0, 1, 0]],
             [1.0, 0, 0]
         );
@@ -50,7 +50,7 @@ export class Room implements ISceneObject {
         this.table = new Table(
             cube,
             [200, 256, 1],
-            [28, 25, -10],
+            [28, 25, -50],
             [Angle.fromDegrees(-90), [1, 0, 0]],
             [155 / 255, 103 / 255, 60 / 255]
         );
@@ -65,7 +65,7 @@ export class Room implements ISceneObject {
         this.ceiling.move([0, height, -256]);
         this.floor.resize([width, 256, 1]);
         const tableWidth = (2 * width) / 3;
-        this.table.resize([tableWidth, height, 1]);
+        this.table.resize([tableWidth, 256, 1]);
         this.table.move([(width - tableWidth) / 2, 0.1 * height, -10]);
     }
 

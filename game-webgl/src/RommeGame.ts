@@ -9,6 +9,7 @@ import { ObjectPosition } from "./ObjectPosition";
 import { ObjectColor } from "./ObjectColor";
 import { Cube } from "./Cube";
 import { Room } from "./Room";
+import { Angle } from "./Angle";
 
 export class RommeGame implements ISceneObject {
     private onScoreChanged: (newScore: number) => void;
@@ -66,18 +67,18 @@ export class RommeGame implements ISceneObject {
     private setCamera() {
         const width = this.highDPICanvas.getLogicalWidth();
         const height = this.highDPICanvas.getLogicalHeight();
+        console.log({ height });
+        const cameraZ = 5;
         this.viewMatrix.setValues(
-            [width / 2, height / 2, 5],
-            [width / 2, height / 2, 0],
+            [width / 2, height / 2, cameraZ],
+            [width / 2, 0.1 * height, -(150 + cameraZ)],
             [0, 1, 0]
         );
         this.projection.setValues(
-            -width / 2,
-            width / 2,
-            -height / 2,
-            height / 2,
-            5,
-            256 + 5
+            Angle.fromDegrees(95),
+            width / height,
+            cameraZ,
+            256 + 10 * cameraZ
         );
     }
 
