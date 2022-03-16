@@ -1,7 +1,5 @@
-import { GameArea } from "./GameArea";
 import { ISceneObject } from "./ISceneObject";
 import { PerspectiveProjection } from "./PerspectiveProjection";
-import { OutsideGameArea } from "./OutsideGameArea";
 import { DesktopPlayer } from "./DesktopPlayer";
 import { HighDPICanvas } from "./HighDPICanvas";
 import { ViewMatrix } from "./ViewMatrix";
@@ -18,9 +16,7 @@ export class RommeGame implements ISceneObject {
     private readonly mobilePlayer: MobilePlayer;
     private readonly viewMatrix: ViewMatrix;
     private readonly projection: PerspectiveProjection;
-    private readonly outsideGame: OutsideGameArea;
     private readonly highDPICanvas: HighDPICanvas;
-    private readonly gameArea: GameArea;
     private readonly cube: Cube;
 
     constructor(
@@ -32,15 +28,6 @@ export class RommeGame implements ISceneObject {
         this.projection = new PerspectiveProjection(context, shaderProgram);
         this.highDPICanvas = new HighDPICanvas(this.canvas);
         const initialFoodRadius = 5;
-        this.gameArea = new GameArea(
-            this.highDPICanvas.getLogicalWidth(),
-            this.highDPICanvas.getLogicalHeight(),
-            8 * initialFoodRadius
-        );
-        this.outsideGame = new OutsideGameArea(
-            this.highDPICanvas.getLogicalWidth(),
-            this.highDPICanvas.getLogicalHeight()
-        );
         this.desktopPlayer = new DesktopPlayer();
         this.mobilePlayer = new MobilePlayer(canvas);
         this.cube = new Cube(context, shaderProgram);
@@ -58,26 +45,10 @@ export class RommeGame implements ISceneObject {
 
     update(): void {
         this.highDPICanvas.recalculate();
-        this.gameArea.resize(
-            this.highDPICanvas.getLogicalWidth(),
-            this.highDPICanvas.getLogicalHeight()
-        );
-        this.outsideGame.resize(
-            this.highDPICanvas.getLogicalWidth(),
-            this.highDPICanvas.getLogicalHeight()
-        );
     }
 
     draw(lagFix: number): void {
         this.highDPICanvas.recalculate();
-        this.gameArea.resize(
-            this.highDPICanvas.getLogicalWidth(),
-            this.highDPICanvas.getLogicalHeight()
-        );
-        this.outsideGame.resize(
-            this.highDPICanvas.getLogicalWidth(),
-            this.highDPICanvas.getLogicalHeight()
-        );
         this.setCamera();
         this.cube.draw();
     }
