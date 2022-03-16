@@ -1,4 +1,5 @@
 import { Angle } from "./Angle";
+import { Card } from "./Card";
 import { Cube } from "./Cube";
 import { ISceneObject } from "./ISceneObject";
 import { Table } from "./Table";
@@ -85,5 +86,12 @@ export class Room implements ISceneObject {
         this.ceiling.draw(lagFix);
         this.floor.draw(lagFix);
         this.table.draw(lagFix);
+        new Card(
+            this.cube,
+            [(2 * 5) / 3, 5, 0.1],
+            [256, 115, 2],
+            [Angle.fromDegrees(-35), [1, 0, 0]],
+            [1.0, 1.0, 0]
+        ).draw(lagFix);
     }
 }
