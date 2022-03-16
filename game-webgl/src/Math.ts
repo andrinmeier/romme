@@ -15,7 +15,7 @@ export const median = (values: number[]): number => {
         return (sorted[middle - 1] + sorted[middle]) / 2;
     }
     return sorted[middle];
-};
+}
 
 export const atan3 = (y: number, x: number): Angle => {
     if (x === 0 && y === 0) {
@@ -26,7 +26,7 @@ export const atan3 = (y: number, x: number): Angle => {
         deg += 360;
     }
     return Angle.fromDegrees(deg);
-};
+}
 
 export const normalize = (vec: Vector2D): Vector2D => {
     const unit = Math.sqrt(Math.pow(vec.x, 2) + Math.pow(vec.y, 2));
@@ -36,93 +36,62 @@ export const normalize = (vec: Vector2D): Vector2D => {
     const normalizedX = vec.x / unit;
     const normalizedY = vec.y / unit;
     return new Vector2D(normalizedX, normalizedY);
-};
+}
 
 export const fpEquals = (a: number, b: number, epsilon: number): boolean => {
     return Math.abs(a - b) < epsilon;
-};
+}
 
-export const closestRotation = (
-    targetDegrees: number,
-    currentDegrees: number
-): number => {
+export const closestRotation = (targetDegrees: number, currentDegrees: number): number => {
     if (fpEquals(targetDegrees, currentDegrees, 0.01)) {
         return 0;
     }
     const alpha = targetDegrees - currentDegrees;
     const beta = targetDegrees - currentDegrees + 360;
     const gamma = targetDegrees - currentDegrees - 360;
-    if (
-        Math.abs(alpha) <= Math.abs(beta) &&
-        Math.abs(alpha) <= Math.abs(gamma)
-    ) {
+    if (Math.abs(alpha) <= Math.abs(beta) && Math.abs(alpha) <= Math.abs(gamma)) {
         if (alpha < 0) {
             return -1;
         } else {
             return 1;
         }
-    } else if (
-        Math.abs(beta) < Math.abs(alpha) &&
-        Math.abs(beta) < Math.abs(gamma)
-    ) {
+    } else if (Math.abs(beta) < Math.abs(alpha) && Math.abs(beta) < Math.abs(gamma)) {
         if (beta < 0) {
             return -1;
         } else {
             return 1;
         }
-    } else if (
-        Math.abs(gamma) < Math.abs(alpha) &&
-        Math.abs(gamma) < Math.abs(beta)
-    ) {
+    } else if (Math.abs(gamma) < Math.abs(alpha) && Math.abs(gamma) < Math.abs(beta)) {
         if (gamma < 0) {
             return -1;
         } else {
             return 1;
         }
     }
-};
+}
 
-const onSegment = (
-    pointA: GamePoint2D,
-    pointB: GamePoint2D,
-    pointC: GamePoint2D
-) => {
-    if (
-        pointB.x <= Math.max(pointA.x, pointC.x) &&
-        pointB.x >= Math.min(pointA.x, pointC.x) &&
-        pointB.y <= Math.max(pointA.y, pointC.y) &&
-        pointB.y >= Math.min(pointA.y, pointC.y)
-    ) {
+const onSegment = (pointA: GamePoint2D, pointB: GamePoint2D, pointC: GamePoint2D) => {
+    if (pointB.x <= Math.max(pointA.x, pointC.x) && pointB.x >= Math.min(pointA.x, pointC.x) &&
+        pointB.y <= Math.max(pointA.y, pointC.y) && pointB.y >= Math.min(pointA.y, pointC.y)) {
         return true;
     }
     return false;
-};
+}
 
-const orientation = (
-    pointA: GamePoint2D,
-    pointB: GamePoint2D,
-    pointC: GamePoint2D
-) => {
-    let val =
-        (pointB.y - pointA.y) * (pointC.x - pointB.x) -
-        (pointB.x - pointA.x) * (pointC.y - pointB.y);
+const orientation = (pointA: GamePoint2D, pointB: GamePoint2D, pointC: GamePoint2D) => {
+    let val = (pointB.y - pointA.y) * (pointC.x - pointB.x) - (pointB.x - pointA.x) * (pointC.y - pointB.y);
     if (val == 0) {
         return 0;
     }
-    return val > 0 ? 1 : 2;
-};
+    return (val > 0) ? 1 : 2;
+}
 
-export const lineSegmentsIntersect = (
-    a: GamePoint2D,
-    b: GamePoint2D,
-    c: GamePoint2D,
-    d: GamePoint2D
-) => {
+export const lineSegmentsIntersect = (a: GamePoint2D, b: GamePoint2D, c: GamePoint2D, d: GamePoint2D) => {
     // Ignore collinearity.
     if (a.x - b.x !== 0 && c.x - d.x !== 0) {
         const slope1 = (a.y - b.y) / (a.x - b.x);
         const slope2 = (c.y - d.y) / (c.x - d.x);
-        if (Math.abs(slope1 - slope2) < 0.001) {
+        if (Math.abs((slope1 - slope2)) < 0.001) {
             return false;
         }
     }
@@ -146,4 +115,4 @@ export const lineSegmentsIntersect = (
         return true;
     }
     return false;
-};
+}

@@ -1,14 +1,16 @@
 import vertexShaderText from "./shaders/VertexShader";
 import fragmentShaderText from "./shaders/FragmentShader";
 
-export const loadAndCompileShaders = (context: any) => {
-    var vertexShaderSource = vertexShaderText;
-    var fragmentShaderSource = fragmentShaderText;
+export const loadAndCompileShaders = (
+    context: WebGL2RenderingContext
+): WebGLProgram => {
+    const vertexShaderSource = vertexShaderText;
+    const fragmentShaderSource = fragmentShaderText;
     if (vertexShaderSource === null || fragmentShaderSource === null) {
         console.log("Could not load shader files");
         return false;
     }
-    var vertexShader = context.createShader(context.VERTEX_SHADER);
+    const vertexShader = context.createShader(context.VERTEX_SHADER);
     context.shaderSource(vertexShader, vertexShaderSource);
     context.compileShader(vertexShader);
     if (!context.getShaderParameter(vertexShader, context.COMPILE_STATUS)) {
@@ -16,7 +18,7 @@ export const loadAndCompileShaders = (context: any) => {
         return false;
     }
 
-    var fragmentShader = context.createShader(context.FRAGMENT_SHADER);
+    const fragmentShader = context.createShader(context.FRAGMENT_SHADER);
     context.shaderSource(fragmentShader, fragmentShaderSource);
     context.compileShader(fragmentShader);
 
@@ -29,8 +31,12 @@ export const loadAndCompileShaders = (context: any) => {
     return setupProgram(context, vertexShader, fragmentShader);
 };
 
-const setupProgram = (gl: any, vertexShader: any, fragmentShader: any) => {
-    var shaderProgram = gl.createProgram();
+const setupProgram = (
+    gl: WebGL2RenderingContext,
+    vertexShader: WebGLShader,
+    fragmentShader: WebGLShader
+): WebGLProgram => {
+    const shaderProgram = gl.createProgram();
     gl.attachShader(shaderProgram, vertexShader);
     gl.attachShader(shaderProgram, fragmentShader);
     gl.linkProgram(shaderProgram);

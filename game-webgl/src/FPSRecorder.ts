@@ -1,4 +1,4 @@
-import { median } from "./Math";
+import { median } from './Math';
 
 export class FPSRecorder {
     private fpsRecorder: number[] = [];
@@ -12,9 +12,7 @@ export class FPSRecorder {
         const delta = msPerFrame / 1000;
         const fps = 1 / delta;
         this.fpsRecorder.push(fps);
-        this.fpsRecorder = this.fpsRecorder.slice(
-            Math.max(this.fpsRecorder.length - this.recordLastN, 0)
-        );
+        this.fpsRecorder = this.fpsRecorder.slice(Math.max(this.fpsRecorder.length - this.recordLastN, 0));
         this.lastFPS = median(this.fpsRecorder);
         this.checkLowFPS();
     }

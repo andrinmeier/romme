@@ -1,125 +1,104 @@
-import { ObjectColor } from "./ObjectColor";
-import { ObjectNormal } from "./ObjectNormal";
-import { ObjectPosition } from "./ObjectPosition";
+import { mat4 } from "gl-matrix";
 
 export class Cube {
-    private readonly vertices: any;
-    private readonly edges: any;
-    private readonly colors: any;
-    private readonly normals: any;
-
     constructor(
-        private readonly gl: any,
-        private readonly objectPosition: ObjectPosition,
-        private readonly objectColor: ObjectColor,
-        private readonly objectNormal: ObjectNormal
-    ) {
-        this.vertices = this.defineVertices(gl);
-        this.edges = this.defineEdges(gl);
-        this.colors = this.defineColors(
-            gl,
-            [0.0, 0.0, 0.0],
-            [0.5, 0.5, 0.5],
-            [1.0, 1.0, 1.0],
-            [1.0, 0, 0],
-            [0, 1.0, 0],
-            [0, 0, 1.0]
-        );
-        this.normals = this.defineNormals(gl);
-    }
+        private readonly context: WebGL2RenderingContext,
+        private readonly shaderProgram: WebGLProgram
+    ) {}
 
-    private defineVertices(gl: any) {
+    defineVertices() {
+        // define the vertices of the cube
         const vertices = [
             // back
-            -0.5,
-            -0.5,
-            -0.5, // v0
-            0.5,
-            -0.5,
-            -0.5, // v1
-            0.5,
-            0.5,
-            -0.5, // v2
-            -0.5,
-            0.5,
-            -0.5, // v3
+            0.0,
+            0.0,
+            0.0, // v0
+            1,
+            0.0,
+            0.0, // v1
+            1,
+            1,
+            0, // v2
+            0,
+            1,
+            0, // v3
             // front
-            -0.5,
-            -0.5,
-            0.5, // v4
-            0.5,
-            -0.5,
-            0.5, // v5
-            0.5,
-            0.5,
-            0.5, // v6
-            -0.5,
-            0.5,
-            0.5, // v7
+            0,
+            0,
+            1, // v4
+            1,
+            0,
+            1, // v5
+            1,
+            1,
+            1, // v6
+            0,
+            1,
+            1, // v7
             // right
-            0.5,
-            -0.5,
-            -0.5, // v8 = v1
-            0.5,
-            0.5,
-            -0.5, // v9 = v2
-            0.5,
-            0.5,
-            0.5, // v10 = v6
-            0.5,
-            -0.5,
-            0.5, // v11 = v5
+            1,
+            0,
+            0, // v8 = v1
+            1,
+            1,
+            0, // v9 = v2
+            1,
+            1,
+            1, // v10 = v6
+            1,
+            0,
+            1, // v11 = v5
             // left
-            -0.5,
-            -0.5,
-            -0.5, // v12 = v0
-            -0.5,
-            0.5,
-            -0.5, // v13 = v3
-            -0.5,
-            0.5,
-            0.5, // v14 = v7
-            -0.5,
-            -0.5,
-            0.5, // v15 = v4
+            0,
+            0,
+            0, // v12 = v0
+            0,
+            1,
+            0, // v13 = v3
+            0,
+            1,
+            1, // v14 = v7
+            0,
+            0,
+            1, // v15 = v4
             // top
-            -0.5,
-            0.5,
-            -0.5, // v16 = v3
-            -0.5,
-            0.5,
-            0.5, // v17 = v7
-            0.5,
-            0.5,
-            0.5, // v18 = v6
-            0.5,
-            0.5,
-            -0.5, // v19 = v2
+            0,
+            1,
+            0, // v16 = v3
+            0,
+            1,
+            1, // v17 = v7
+            1,
+            1,
+            1, // v18 = v6
+            1,
+            1,
+            0, // v19 = v2
             //bottom
-            -0.5,
-            -0.5,
-            -0.5, // v20 = v0
-            -0.5,
-            -0.5,
-            0.5, // v21 = v4
-            0.5,
-            -0.5,
-            0.5, // v22 = v5
-            0.5,
-            -0.5,
-            -0.5 // v23 = v1
+            0,
+            0,
+            0, // v20 = v0
+            0,
+            0,
+            1, // v21 = v4
+            1,
+            0,
+            1, // v22 = v5
+            1,
+            0,
+            0 // v23 = v1
         ];
-        const buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(
-            gl.ARRAY_BUFFER,
+        const buffer = this.context.createBuffer();
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);
+        this.context.bufferData(
+            this.context.ARRAY_BUFFER,
             new Float32Array(vertices),
-            gl.STATIC_DRAW
+            this.context.STATIC_DRAW
         );
         return buffer;
     }
 
-    private defineEdges(gl: any) {
+    defineSides() {
         // define the edges for the cube, there are 12 edges in a cube
         const vertexIndices = [
             0,
@@ -159,19 +138,18 @@ export class Cube {
             21,
             20
         ];
-        const buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
-        gl.bufferData(
-            gl.ELEMENT_ARRAY_BUFFER,
+        const buffer = this.context.createBuffer();
+        this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, buffer);
+        this.context.bufferData(
+            this.context.ELEMENT_ARRAY_BUFFER,
             new Uint16Array(vertexIndices),
-            gl.STATIC_DRAW
+            this.context.STATIC_DRAW
         );
 
         return buffer;
     }
 
-    private defineColors(
-        gl,
+    defineColors(
         backColor,
         frontColor,
         rightColor,
@@ -198,17 +176,83 @@ export class Cube {
             topSide,
             bottomSide
         );
-        const buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(
-            gl.ARRAY_BUFFER,
+        const buffer = this.context.createBuffer();
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);
+        this.context.bufferData(
+            this.context.ARRAY_BUFFER,
             new Float32Array(allSides),
-            gl.STATIC_DRAW
+            this.context.STATIC_DRAW
         );
         return buffer;
     }
 
-    private defineNormals(gl: any) {
+    defineTextureCoord() {
+        const textureCoords = [
+            0.0,
+            0.0, // back
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0,
+            // front
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0,
+            // right
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0,
+            // left
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0,
+            // top
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0,
+            // bottom
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0
+        ];
+        const buffer = this.context.createBuffer();
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);
+        this.context.bufferData(
+            this.context.ARRAY_BUFFER,
+            new Float32Array(textureCoords),
+            this.context.STATIC_DRAW
+        );
+        return buffer;
+    }
+
+    defineNormals() {
         const backNormal = [0.0, 0.0, -1.0];
         const frontNormal = [0.0, 0.0, 1.0];
         const rightNormal = [1.0, 0.0, 0.0];
@@ -252,24 +296,76 @@ export class Cube {
             bottomSideNormal
         );
 
-        const buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(
-            gl.ARRAY_BUFFER,
+        const buffer = this.context.createBuffer();
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);
+        this.context.bufferData(
+            this.context.ARRAY_BUFFER,
             new Float32Array(allSidesNormal),
-            gl.STATIC_DRAW
+            this.context.STATIC_DRAW
         );
         return buffer;
     }
 
-    private draw() {
-        this.objectPosition.setValues(this.vertices);
-        this.objectPosition.activate();
-        this.objectColor.setValues(this.colors);
-        this.objectColor.activate();
-        this.objectNormal.setValues(this.normals);
-        this.objectNormal.activate();
-        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.edges);
-        this.gl.drawElements(this.gl.TRIANGLES, 36, this.gl.UNSIGNED_SHORT, 0);
+    draw() {
+        const modelMatrix = mat4.create();
+        mat4.translate(modelMatrix, modelMatrix, [128, 128, 0]);
+        mat4.scale(modelMatrix, modelMatrix, [50, 50, 2]);
+        const matrixId = this.context.getUniformLocation(
+            this.shaderProgram,
+            "modelMatrix"
+        );
+        this.context.uniformMatrix4fv(matrixId, false, modelMatrix);
+        const bufferVertices = this.defineVertices();
+        const bufferSides = this.defineSides();
+        const bufferColors = this.defineColors(
+            [1.0, 1.0, 0.0],
+            [1.0, 1.0, 0.0],
+            [1.0, 1.0, 0.0],
+            [1.0, 1.0, 0.0],
+            [1.0, 1.0, 0.0],
+            [1.0, 1.0, 0.0]
+        );
+
+        // position
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, bufferVertices);
+        const positionId = this.context.getAttribLocation(
+            this.shaderProgram,
+            "position"
+        );
+        this.context.vertexAttribPointer(
+            positionId,
+            3,
+            this.context.FLOAT,
+            false,
+            0,
+            0
+        );
+        this.context.enableVertexAttribArray(positionId);
+
+        // color buffer
+        const colorId = this.context.getAttribLocation(
+            this.shaderProgram,
+            "color"
+        );
+
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, bufferColors);
+        this.context.vertexAttribPointer(
+            colorId,
+            3,
+            this.context.FLOAT,
+            false,
+            0,
+            0
+        );
+        this.context.enableVertexAttribArray(colorId);
+
+        // bind the element array
+        this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, bufferSides);
+        this.context.drawElements(
+            this.context.TRIANGLES,
+            36,
+            this.context.UNSIGNED_SHORT,
+            0
+        );
     }
 }

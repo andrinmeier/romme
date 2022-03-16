@@ -1,9 +1,9 @@
 export class ObjectPosition {
-    private readonly id: any;
+    private readonly positionId: any;
     private readonly buffer: any;
 
     constructor(readonly context: any, shaderProgram: any) {
-        this.id = context.getAttribLocation(shaderProgram, "position");
+        this.positionId = context.getAttribLocation(shaderProgram, "position");
         this.buffer = context.createBuffer();
     }
 
@@ -19,13 +19,13 @@ export class ObjectPosition {
     activate() {
         this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
         this.context.vertexAttribPointer(
-            this.id,
-            2,
+            this.positionId,
+            3,
             this.context.FLOAT,
             false,
             0,
             0
         );
-        this.context.enableVertexAttribArray(this.id);
+        this.context.enableVertexAttribArray(this.positionId);
     }
 }

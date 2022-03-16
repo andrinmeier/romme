@@ -7,20 +7,14 @@ export class HighDPICanvas {
     private highDPIenabled: boolean = true;
 
     constructor(readonly canvas: any) {
-        this.canvasToDisplaySizeMap = new Map([
-            [canvas, [canvas.clientWidth, canvas.clientHeight]]
-        ]);
-        this.resizeObserver = new ResizeObserver((entries: any[]) =>
-            this.onResize(entries)
-        );
+        this.canvasToDisplaySizeMap = new Map([[canvas, [canvas.clientWidth, canvas.clientHeight]]]);
+        this.resizeObserver = new ResizeObserver((entries: any[]) => this.onResize(entries));
         try {
             // only call us of the number of device pixels changed
-            this.resizeObserver.observe(canvas, {
-                box: "device-pixel-content-box"
-            });
+            this.resizeObserver.observe(canvas, { box: 'device-pixel-content-box' });
         } catch (ex) {
             // device-pixel-content-box is not supported so fallback to this
-            this.resizeObserver.observe(canvas, { box: "content-box" });
+            this.resizeObserver.observe(canvas, { box: 'content-box' });
         }
         this.context = this.canvas.getContext("webgl2");
         this.recalculate();
@@ -61,21 +55,14 @@ export class HighDPICanvas {
             }
             const displayWidth = Math.round(width * dpr);
             const displayHeight = Math.round(height * dpr);
-            this.canvasToDisplaySizeMap.set(entry.target, [
-                displayWidth,
-                displayHeight
-            ]);
+            this.canvasToDisplaySizeMap.set(entry.target, [displayWidth, displayHeight]);
         }
     }
 
     recalculate() {
-        const [widthPixels, heightPixels] = this.canvasToDisplaySizeMap.get(
-            this.canvas
-        );
+        const [widthPixels, heightPixels] = this.canvasToDisplaySizeMap.get(this.canvas);
         const ratio = window.devicePixelRatio;
-        const sameRatio =
-            this.currentDevicePixelRatio &&
-            ratio === this.currentDevicePixelRatio;
+        const sameRatio = this.currentDevicePixelRatio && ratio === this.currentDevicePixelRatio;
         let resizedWidth;
         let resizedHeight;
         if (this.highDPIenabled) {
@@ -93,12 +80,7 @@ export class HighDPICanvas {
         this.currentDevicePixelRatio = ratio;
         this.canvas.width = resizedWidth;
         this.canvas.height = resizedHeight;
-        this.context.viewport(
-            0,
-            0,
-            this.context.drawingBufferWidth,
-            this.context.drawingBufferHeight
-        );
+        this.context.viewport(0, 0, this.context.drawingBufferWidth, this.context.drawingBufferHeight);
     }
 
     getLogicalWidth() {

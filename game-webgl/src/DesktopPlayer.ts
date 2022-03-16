@@ -8,10 +8,10 @@ export class DesktopPlayer {
             LEFT: "KeyA",
             UP: "KeyW",
             RIGHT: "KeyD",
-            DOWN: "KeyS"
+            DOWN: "KeyS",
         };
         this.hookupEventListeners();
-    }
+    }   
 
     movesLeft() {
         return this.isPressed(this.key.LEFT);

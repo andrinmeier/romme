@@ -8,10 +8,10 @@ export class Scene implements ISceneObject {
     }
 
     update(): void {
-        this.sceneObjects.forEach((obj) => obj.update());
+        this.sceneObjects.forEach(obj => obj.update());
     }
 
     draw(lagFix: number): void {
-        this.sceneObjects.forEach((obj) => obj.draw(lagFix));
+        this.sceneObjects.forEach(obj => obj.draw(lagFix));
     }
 }

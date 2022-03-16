@@ -1,4 +1,4 @@
-import { mat3, mat4 } from "gl-matrix";
+import { mat4 } from "gl-matrix";
 
 export class ModelMatrix {
     private readonly matrixId;
@@ -10,7 +10,7 @@ export class ModelMatrix {
         );
     }
 
-    setValues(matrix: mat3) {
-        this.context.uniformMatrix3fv(this.matrixId, false, matrix);
+    setValues(matrix: mat4) {
+        this.context.uniformMatrix4fv(this.matrixId, false, matrix);
     }
 }

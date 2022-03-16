@@ -5,6 +5,8 @@ import { loadAndCompileShaders } from "./ShaderUtils";
 import { RommeGame } from "./RommeGame";
 
 export class Game {
+    private onScoreChanged: (newScore: number) => void;
+    private onGameDone: (finalScore: number) => void;
     private loop: GameLoop;
     private shaderProgram: any;
     private rommeGame: RommeGame;
@@ -35,10 +37,31 @@ export class Game {
         const scene = new Scene();
         scene.add(this.rommeGame);
         this.loop = new GameLoop(this.context, scene, this.fpsRecorder);
+        this.rommeGame.registerOnScoreChanged((newScore: number) => {
+            if (!this.onScoreChanged) {
+                return;
+            }
+            this.onScoreChanged(newScore);
+        });
+        this.rommeGame.registerOnGameDone((finalScore: number) => {
+            this.loop.stop();
+            if (!this.onGameDone) {
+                return;
+            }
+            this.onGameDone(finalScore);
+        });
         this.loop.init();
     }
 
     onLowFPSDetected = () => {
         this.rommeGame.switchToLowerQuality();
     };
+
+    registerOnScoreChanged(callback: (newScore: number) => void) {
+        this.onScoreChanged = callback;
+    }
+
+    registerOnGameDone(callback: (finalScore: number) => void) {
+        this.onGameDone = callback;
+    }
 }
