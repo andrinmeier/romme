@@ -4,9 +4,6 @@ import { DesktopPlayer } from "./DesktopPlayer";
 import { HighDPICanvas } from "./HighDPICanvas";
 import { ViewMatrix } from "./ViewMatrix";
 import { MobilePlayer } from "./MobilePlayer";
-import { ModelMatrix } from "./ModelMatrix";
-import { ObjectPosition } from "./ObjectPosition";
-import { ObjectColor } from "./ObjectColor";
 import { Cube } from "./Cube";
 import { Room } from "./Room";
 import { Angle } from "./Angle";
@@ -67,7 +64,6 @@ export class RommeGame implements ISceneObject {
     private setCamera() {
         const width = this.highDPICanvas.getLogicalWidth();
         const height = this.highDPICanvas.getLogicalHeight();
-        console.log({ height });
         const cameraZ = 5;
         this.viewMatrix.setValues(
             [width / 2, height / 2, cameraZ],

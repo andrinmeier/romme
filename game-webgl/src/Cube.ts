@@ -340,7 +340,6 @@ export class Cube {
             this.alignment[1][1] !== 0 ||
             this.alignment[1][2] !== 0
         ) {
-            console.log(this.alignment[1]);
             mat4.rotate(
                 modelMatrix,
                 modelMatrix,
