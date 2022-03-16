@@ -1,6 +1,7 @@
 import { Angle } from "./Angle";
 import { Cube } from "./Cube";
 import { ISceneObject } from "./ISceneObject";
+import { Table } from "./Table";
 import { Wall } from "./Wall";
 
 export class Room implements ISceneObject {
@@ -9,6 +10,7 @@ export class Room implements ISceneObject {
     private readonly frontWall: Wall;
     private readonly ceiling: Wall;
     private readonly floor: Wall;
+    private readonly table: Table;
     constructor(private readonly cube: Cube) {
         this.leftWall = new Wall(
             cube,
@@ -45,6 +47,26 @@ export class Room implements ISceneObject {
             [Angle.fromDegrees(-90), [1, 0, 0]],
             [1.0, 1.0, 1.0]
         );
+        this.table = new Table(
+            cube,
+            [200, 256, 1],
+            [28, 25, -10],
+            [Angle.fromDegrees(-90), [1, 0, 0]],
+            [155 / 255, 103 / 255, 60 / 255]
+        );
+    }
+
+    resize(width: number, height: number) {
+        this.leftWall.resize([256, height, 1]);
+        this.rightWall.resize([256, height, 1]);
+        this.rightWall.move([width, 0, -256]);
+        this.frontWall.resize([width, height, 1]);
+        this.ceiling.resize([width, 256, 1]);
+        this.ceiling.move([0, height, -256]);
+        this.floor.resize([width, 256, 1]);
+        const tableWidth = (2 * width) / 3;
+        this.table.resize([tableWidth, height, 1]);
+        this.table.move([(width - tableWidth) / 2, 0.1 * height, -10]);
     }
 
     update(): void {
@@ -53,6 +75,7 @@ export class Room implements ISceneObject {
         this.frontWall.update();
         this.ceiling.update();
         this.floor.update();
+        this.table.update();
     }
 
     draw(lagFix: number): void {
@@ -61,5 +84,6 @@ export class Room implements ISceneObject {
         this.frontWall.draw(lagFix);
         this.ceiling.draw(lagFix);
         this.floor.draw(lagFix);
+        this.table.draw(lagFix);
     }
 }

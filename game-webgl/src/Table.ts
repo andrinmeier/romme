@@ -1,7 +1,7 @@
 import { Alignment, Cube, Size, Location, Color } from "./Cube";
 import { ISceneObject } from "./ISceneObject";
 
-export class Wall implements ISceneObject {
+export class Table implements ISceneObject {
     private size: Size = [5, 5, 1];
     private location: Location = [128, 128, 0];
     constructor(

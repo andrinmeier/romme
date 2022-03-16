@@ -46,11 +46,19 @@ export class RommeGame implements ISceneObject {
 
     update(): void {
         this.highDPICanvas.recalculate();
+        this.room.resize(
+            this.highDPICanvas.getLogicalWidth(),
+            this.highDPICanvas.getLogicalHeight()
+        );
         this.room.update();
     }
 
     draw(lagFix: number): void {
         this.highDPICanvas.recalculate();
+        this.room.resize(
+            this.highDPICanvas.getLogicalWidth(),
+            this.highDPICanvas.getLogicalHeight()
+        );
         this.setCamera();
         this.room.draw(lagFix);
     }
