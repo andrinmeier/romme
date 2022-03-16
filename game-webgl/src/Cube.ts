@@ -1,10 +1,36 @@
 import { mat4 } from "gl-matrix";
+import { Angle } from "./Angle";
 
+export type Size = [number, number, number];
+export type Location = [number, number, number];
+export type Alignment = [Angle, [number, number, number]];
+export type Color = [number, number, number];
 export class Cube {
+    private size: Size = [5, 5, 1];
+    private location: Location = [128, 128, 0];
+    private alignment: Alignment = [Angle.fromDegrees(0), [0, 0, 0]];
+    private color: Color = [1.0, 1.0, 0];
+
     constructor(
         private readonly context: WebGL2RenderingContext,
         private readonly shaderProgram: WebGLProgram
     ) {}
+
+    resize(newSize: Size) {
+        this.size = newSize;
+    }
+
+    move(newLocation: Location) {
+        this.location = newLocation;
+    }
+
+    align(newAlignment: Alignment) {
+        this.alignment = newAlignment;
+    }
+
+    changeColor(newColor: Color) {
+        this.color = newColor;
+    }
 
     defineVertices() {
         // define the vertices of the cube
@@ -308,8 +334,14 @@ export class Cube {
 
     draw() {
         const modelMatrix = mat4.create();
-        mat4.translate(modelMatrix, modelMatrix, [128, 128, 0]);
-        mat4.scale(modelMatrix, modelMatrix, [50, 50, 2]);
+        mat4.translate(modelMatrix, modelMatrix, this.location);
+        mat4.rotate(
+            modelMatrix,
+            modelMatrix,
+            this.alignment[0].rad,
+            this.alignment[1]
+        );
+        mat4.scale(modelMatrix, modelMatrix, this.size);
         const matrixId = this.context.getUniformLocation(
             this.shaderProgram,
             "modelMatrix"
@@ -318,12 +350,12 @@ export class Cube {
         const bufferVertices = this.defineVertices();
         const bufferSides = this.defineSides();
         const bufferColors = this.defineColors(
-            [1.0, 1.0, 0.0],
-            [1.0, 1.0, 0.0],
-            [1.0, 1.0, 0.0],
-            [1.0, 1.0, 0.0],
-            [1.0, 1.0, 0.0],
-            [1.0, 1.0, 0.0]
+            this.color,
+            this.color,
+            this.color,
+            this.color,
+            this.color,
+            this.color
         );
 
         // position

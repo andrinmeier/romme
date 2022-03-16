@@ -8,10 +8,23 @@ export class GameLoop {
     private lag: number = 0.0;
     private stopped: boolean = false;
 
-    constructor(private readonly context: any, private readonly scene: Scene, private readonly fpsRecorder: FPSRecorder) { }
+    constructor(
+        private readonly context: any,
+        private readonly scene: Scene,
+        private readonly fpsRecorder: FPSRecorder
+    ) {}
 
     init() {
-        this.context.clearColor(ColorPalette.BOARD[0], ColorPalette.BOARD[1], ColorPalette.BOARD[2], 1);
+        this.context.frontFace(this.context.CCW);
+        this.context.cullFace(this.context.BACK);
+        this.context.enable(this.context.CULL_FACE);
+        this.context.enable(this.context.DEPTH_TEST);
+        this.context.clearColor(
+            ColorPalette.BOARD[0],
+            ColorPalette.BOARD[1],
+            ColorPalette.BOARD[2],
+            1
+        );
     }
 
     drawAnimated = (current) => {
@@ -27,13 +40,15 @@ export class GameLoop {
                 this.scene.update();
                 this.lag -= this.MS_PER_UPDATE;
             }
-            this.context.clear(this.context.COLOR_BUFFER_BIT);
+            this.context.clear(
+                this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT
+            );
             const restLag = this.lag / this.MS_PER_UPDATE;
             this.scene.draw(restLag);
             this.fpsRecorder.record(elapsed);
         }
         window.requestAnimationFrame(this.drawAnimated);
-    }
+    };
 
     start() {
         this.stopped = false;

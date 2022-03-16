@@ -15,15 +15,7 @@ const GameScorePage = () => {
         game.start();
     }, [canvasRef]);
 
-    return (
-        <div className="flex-1 flex">
-            <canvas
-                ref={canvasRef}
-                id="romme-canvas"
-                className="w-3/4 aspect-video"
-            />
-        </div>
-    );
+    return <canvas ref={canvasRef} id="romme-canvas" className="w-3/4" />;
 };
 
 export default GameScorePage;

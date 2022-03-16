@@ -8,6 +8,7 @@ import { ModelMatrix } from "./ModelMatrix";
 import { ObjectPosition } from "./ObjectPosition";
 import { ObjectColor } from "./ObjectColor";
 import { Cube } from "./Cube";
+import { Room } from "./Room";
 
 export class RommeGame implements ISceneObject {
     private onScoreChanged: (newScore: number) => void;
@@ -17,7 +18,7 @@ export class RommeGame implements ISceneObject {
     private readonly viewMatrix: ViewMatrix;
     private readonly projection: PerspectiveProjection;
     private readonly highDPICanvas: HighDPICanvas;
-    private readonly cube: Cube;
+    private readonly room: Room;
 
     constructor(
         context: WebGL2RenderingContext,
@@ -27,10 +28,10 @@ export class RommeGame implements ISceneObject {
         this.viewMatrix = new ViewMatrix(context, shaderProgram);
         this.projection = new PerspectiveProjection(context, shaderProgram);
         this.highDPICanvas = new HighDPICanvas(this.canvas);
-        const initialFoodRadius = 5;
         this.desktopPlayer = new DesktopPlayer();
         this.mobilePlayer = new MobilePlayer(canvas);
-        this.cube = new Cube(context, shaderProgram);
+        const cube = new Cube(context, shaderProgram);
+        this.room = new Room(cube);
     }
 
     switchToLowerQuality(): void {
@@ -45,12 +46,13 @@ export class RommeGame implements ISceneObject {
 
     update(): void {
         this.highDPICanvas.recalculate();
+        this.room.update();
     }
 
     draw(lagFix: number): void {
         this.highDPICanvas.recalculate();
         this.setCamera();
-        this.cube.draw();
+        this.room.draw(lagFix);
     }
 
     private setCamera() {
