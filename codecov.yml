@@ -1,0 +1,15 @@
+coverage:
+  status:
+    project:
+      default: false
+      server:
+        flags:
+          - server
+
+flags:
+  server:
+    paths:
+      - server/
+  tests:
+    paths:
+      - test/
