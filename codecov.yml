@@ -5,11 +5,17 @@ coverage:
       server:
         flags:
           - server
+      game-logic:
+        flags:
+          - game-logic
 
 flags:
   server:
     paths:
       - server/
+  game-logic:
+    paths:
+      - game-logic/
   tests:
     paths:
       - test/
