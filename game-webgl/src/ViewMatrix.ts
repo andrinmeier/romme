@@ -30,16 +30,16 @@ export class ViewMatrix {
     transformRayToWorld(cameraRay: Vector3D): GameRay {
         const inverseView = mat4.create();
         mat4.invert(inverseView, this.viewMatrix);
-        const ray_world = vec4.create();
+        const rayWorld = vec4.create();
         vec4.transformMat4(
-            ray_world,
+            rayWorld,
             vec4.fromValues(cameraRay.x, cameraRay.y, cameraRay.z, 0.0),
             inverseView
         );
         const normalizedRay = vec3.create();
         vec3.normalize(
             normalizedRay,
-            vec3.fromValues(ray_world[0], ray_world[1], ray_world[2])
+            vec3.fromValues(rayWorld[0], rayWorld[1], rayWorld[2])
         );
         const direction = new Vector3D(
             normalizedRay[0],
