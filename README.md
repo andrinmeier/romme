@@ -2,7 +2,7 @@
 ![Webapplication](https://github.com/andrinmeier/romme/actions/workflows/webapp.yml/badge.svg)
 ![Documentation](https://github.com/andrinmeier/romme/actions/workflows/docs.yml/badge.svg)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![codecov](https://codecov.io/gh/andrinmeier/romme/branch/main/graph/badge.svg?token=H5Z2GOYODK)](https://codecov.io/gh/andrinmeier/romme)
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=andrinmeier_romme)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Join the chat at https://gitter.im/andrinmeier/romme](https://badges.gitter.im/andrinmeier/romme.svg)](https://gitter.im/andrinmeier/romme?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
