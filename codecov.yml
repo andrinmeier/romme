@@ -1,7 +1,7 @@
 coverage:
   status:
     project:
-      default: false
+      default: off
       server:
         flags:
           - server
