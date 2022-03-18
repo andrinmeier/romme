@@ -1,5 +1,6 @@
 import { Alignment, Cube, Size, Location, Color } from "./Cube";
 import { ISceneObject } from "./ISceneObject";
+import { Plane } from "./Plane";
 
 export class Card implements ISceneObject {
     private size: Size = [5, 10, 1];
@@ -21,9 +22,14 @@ export class Card implements ISceneObject {
         this.size = newSize;
     }
 
+    getFrontPlane(): Plane {
+        return this.cube.getFrontPlane();
+    }
+
     move(newLocation: Location) {
         this.location = newLocation;
     }
+
     draw(lagFix: number): void {
         this.cube.move(this.location);
         this.cube.resize(this.size);

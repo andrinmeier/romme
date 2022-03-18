@@ -1,5 +1,7 @@
-import { mat4 } from "gl-matrix";
+import { mat3, mat4, vec3, vec4 } from "gl-matrix";
 import { Angle } from "./Angle";
+import { GamePoint3D } from "./GamePoint3D";
+import { Plane } from "./Plane";
 
 export type Size = [number, number, number];
 export type Location = [number, number, number];
@@ -332,7 +334,7 @@ export class Cube {
         return buffer;
     }
 
-    draw() {
+    private createModelMatrix(): mat4 {
         const modelMatrix = mat4.create();
         mat4.translate(modelMatrix, modelMatrix, this.location);
         if (
@@ -348,11 +350,33 @@ export class Cube {
             );
         }
         mat4.scale(modelMatrix, modelMatrix, this.size);
+        return modelMatrix;
+    }
+
+    private transformToWorld(point: [number, number, number]): GamePoint3D {
+        const vector4D = vec4.fromValues(point[0], point[1], point[2], 1);
+        const inWorld = vec4.create();
+        vec4.transformMat4(inWorld, vector4D, this.createModelMatrix());
+        return new GamePoint3D(inWorld[0], inWorld[1], inWorld[2]);
+    }
+
+    getFrontPlane(): Plane {
+        const origin = this.transformToWorld([0, 0, 0]);
+        const leftTop = this.transformToWorld([0, 1, 0]);
+        const rightBottom = this.transformToWorld([1, 0, 0]);
+        return new Plane(origin, leftTop, rightBottom);
+    }
+
+    draw() {
         const matrixId = this.context.getUniformLocation(
             this.shaderProgram,
             "modelMatrix"
         );
-        this.context.uniformMatrix4fv(matrixId, false, modelMatrix);
+        this.context.uniformMatrix4fv(
+            matrixId,
+            false,
+            this.createModelMatrix()
+        );
         const bufferVertices = this.defineVertices();
         const bufferSides = this.defineSides();
         const bufferColors = this.defineColors(

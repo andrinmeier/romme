@@ -1,6 +1,7 @@
 import { Angle } from "./Angle";
 import { Card } from "./Card";
 import { Cube } from "./Cube";
+import { GameRay } from "./GameRay";
 import { ISceneObject } from "./ISceneObject";
 import { Table } from "./Table";
 import { Wall } from "./Wall";
@@ -12,6 +13,7 @@ export class Room implements ISceneObject {
     private readonly ceiling: Wall;
     private readonly floor: Wall;
     private readonly table: Table;
+    private readonly card: Card;
     constructor(private readonly cube: Cube) {
         this.leftWall = new Wall(
             cube,
@@ -55,6 +57,21 @@ export class Room implements ISceneObject {
             [Angle.fromDegrees(-90), [1, 0, 0]],
             [155 / 255, 103 / 255, 60 / 255]
         );
+        this.card = new Card(
+            this.cube,
+            [5, 5, 0.1],
+            [256, 115, 2],
+            [Angle.fromDegrees(-35), [1, 0, 0]],
+            [1.0, 1.0, 0]
+        );
+    }
+
+    handleHover(hoverRay: GameRay): void {
+        const plane = this.card.getFrontPlane();
+        const intersection = plane.calculateIntersection(hoverRay);
+        if (!intersection) {
+            return;
+        }
     }
 
     resize(width: number, height: number) {
@@ -77,6 +94,7 @@ export class Room implements ISceneObject {
         this.ceiling.update();
         this.floor.update();
         this.table.update();
+        this.card.update();
     }
 
     draw(lagFix: number): void {
@@ -86,12 +104,6 @@ export class Room implements ISceneObject {
         this.ceiling.draw(lagFix);
         this.floor.draw(lagFix);
         this.table.draw(lagFix);
-        new Card(
-            this.cube,
-            [(2 * 5) / 3, 5, 0.1],
-            [256, 115, 2],
-            [Angle.fromDegrees(-35), [1, 0, 0]],
-            [1.0, 1.0, 0]
-        ).draw(lagFix);
+        this.card.draw(lagFix);
     }
 }

@@ -1,45 +1,39 @@
+import { mat3, mat4, vec3, vec4 } from "gl-matrix";
+import { Angle } from "./Angle";
+import { NormalizedScreenPoint2D } from "./NormalizedScreenPoint2D";
+
 export class DesktopPlayer {
-    private readonly pressed: any;
-    private readonly key: any;
-
-    constructor() {
-        this.pressed = {};
-        this.key = {
-            LEFT: "KeyA",
-            UP: "KeyW",
-            RIGHT: "KeyD",
-            DOWN: "KeyS",
-        };
+    private lastHoverMouseOffset: [number, number];
+    constructor(private readonly canvas: HTMLCanvasElement) {
         this.hookupEventListeners();
-    }   
-
-    movesLeft() {
-        return this.isPressed(this.key.LEFT);
-    }
-
-    movesRight() {
-        return this.isPressed(this.key.RIGHT);
     }
 
     hookupEventListeners() {
-        window.addEventListener("keydown", this.onKeydown, false);
-        window.addEventListener("keyup", this.onKeyup, false);
+        window.addEventListener("mousemove", this.onMouseOver, false);
     }
 
     cleanup() {
-        window.removeEventListener("keydown", this.onKeydown, false);
-        window.removeEventListener("keyup", this.onKeyup, false);
+        window.removeEventListener("mousemove", this.onMouseOver, false);
     }
 
-    onKeydown = (event) => {
-        this.pressed[event.code] = true;
-    };
+    isHoveringOverCanvas(): boolean {
+        return this.lastHoverMouseOffset !== undefined;
+    }
 
-    onKeyup = (event) => {
-        this.pressed[event.code] = false;
-    };
+    getHoverPoint(): NormalizedScreenPoint2D {
+        const ndcX =
+            (this.lastHoverMouseOffset[0] / this.canvas.clientWidth) * 2 - 1;
+        const ndcY =
+            (1 - this.lastHoverMouseOffset[1] / this.canvas.clientHeight) * 2 -
+            1;
+        return new NormalizedScreenPoint2D(ndcX, ndcY);
+    }
 
-    isPressed = (keyCode) => {
-        return this.pressed[keyCode];
+    onMouseOver = (mouseEvent) => {
+        if (mouseEvent.target !== this.canvas) {
+            this.lastHoverMouseOffset = undefined;
+            return;
+        }
+        this.lastHoverMouseOffset = [mouseEvent.offsetX, mouseEvent.offsetY];
     };
 }
