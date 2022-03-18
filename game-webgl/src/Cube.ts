@@ -1,4 +1,4 @@
-import { mat3, mat4, vec3, vec4 } from "gl-matrix";
+import { mat4, vec4 } from "gl-matrix";
 import { Angle } from "./Angle";
 import { GamePoint3D } from "./GamePoint3D";
 import { Plane } from "./Plane";
@@ -12,11 +12,18 @@ export class Cube {
     private location: Location = [128, 128, 0];
     private alignment: Alignment = [Angle.fromDegrees(0), [0, 0, 0]];
     private color: Color = [1.0, 1.0, 0];
+    private readonly bufferVertices: WebGLBuffer;
+    private readonly bufferSides: WebGLBuffer;
+    private bufferColors: WebGLBuffer;
 
     constructor(
         private readonly context: WebGL2RenderingContext,
         private readonly shaderProgram: WebGLProgram
-    ) {}
+    ) {
+        this.bufferVertices = this.defineVertices();
+        this.bufferSides = this.defineSides();
+        this.changeColor([1.0, 1.0, 0]);
+    }
 
     resize(newSize: Size) {
         this.size = newSize;
@@ -31,7 +38,14 @@ export class Cube {
     }
 
     changeColor(newColor: Color) {
-        this.color = newColor;
+        this.changeColors(
+            newColor,
+            newColor,
+            newColor,
+            newColor,
+            newColor,
+            newColor
+        );
     }
 
     defineVertices() {
@@ -175,6 +189,24 @@ export class Cube {
         );
 
         return buffer;
+    }
+
+    changeColors(
+        backColor,
+        frontColor,
+        rightColor,
+        leftColor,
+        topColor,
+        bottomColor
+    ) {
+        this.bufferColors = this.defineColors(
+            backColor,
+            frontColor,
+            rightColor,
+            leftColor,
+            topColor,
+            bottomColor
+        );
     }
 
     defineColors(
@@ -377,19 +409,9 @@ export class Cube {
             false,
             this.createModelMatrix()
         );
-        const bufferVertices = this.defineVertices();
-        const bufferSides = this.defineSides();
-        const bufferColors = this.defineColors(
-            this.color,
-            [this.color[0] * 0.7, this.color[1] * 0.7, this.color[2] * 0.7],
-            this.color,
-            this.color,
-            this.color,
-            this.color
-        );
 
         // position
-        this.context.bindBuffer(this.context.ARRAY_BUFFER, bufferVertices);
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, this.bufferVertices);
         const positionId = this.context.getAttribLocation(
             this.shaderProgram,
             "position"
@@ -410,7 +432,7 @@ export class Cube {
             "color"
         );
 
-        this.context.bindBuffer(this.context.ARRAY_BUFFER, bufferColors);
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, this.bufferColors);
         this.context.vertexAttribPointer(
             colorId,
             3,
@@ -422,7 +444,10 @@ export class Cube {
         this.context.enableVertexAttribArray(colorId);
 
         // bind the element array
-        this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, bufferSides);
+        this.context.bindBuffer(
+            this.context.ELEMENT_ARRAY_BUFFER,
+            this.bufferSides
+        );
         this.context.drawElements(
             this.context.TRIANGLES,
             36,

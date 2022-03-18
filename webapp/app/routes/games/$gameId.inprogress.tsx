@@ -9,10 +9,11 @@ const GameScorePage = () => {
         if (!canvasRef.current) {
             return;
         }
-        const canvas = canvasRef.current as any;
+        const canvas = canvasRef.current as HTMLCanvasElement;
         const context = canvas.getContext("webgl2");
         game = new Game(context, canvas);
         game.start();
+        return () => game.stop();
     }, [canvasRef]);
 
     return <canvas ref={canvasRef} id="romme-canvas" className="w-3/4" />;

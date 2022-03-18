@@ -8,11 +8,14 @@ export class Game {
     private onScoreChanged: (newScore: number) => void;
     private onGameDone: (finalScore: number) => void;
     private loop: GameLoop;
-    private shaderProgram: any;
+    private shaderProgram: WebGLProgram;
     private rommeGame: RommeGame;
     private fpsRecorder: FPSRecorder;
 
-    constructor(readonly context: any, readonly canvas: any) {
+    constructor(
+        readonly context: WebGL2RenderingContext,
+        readonly canvas: HTMLCanvasElement
+    ) {
         this.shaderProgram = loadAndCompileShaders(this.context);
     }
 
@@ -54,6 +57,7 @@ export class Game {
     }
 
     onLowFPSDetected = () => {
+        console.log("Low FPS detected. Switching to lower quality settings.");
         this.rommeGame.switchToLowerQuality();
     };
 

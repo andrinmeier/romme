@@ -59,10 +59,9 @@ export class Room implements ISceneObject {
         );
         this.card = new Card(
             this.cube,
-            [5, 5, 0.1],
+            [(2 * 5) / 3, 5, 0.1],
             [256, 115, 2],
-            [Angle.fromDegrees(-35), [1, 0, 0]],
-            [1.0, 1.0, 0]
+            [Angle.fromDegrees(-35), [1, 0, 0]]
         );
     }
 
@@ -70,8 +69,10 @@ export class Room implements ISceneObject {
         const plane = this.card.getFrontPlane();
         const intersection = plane.calculateIntersection(hoverRay);
         if (!intersection) {
+            this.card.deselect();
             return;
         }
+        this.card.select();
     }
 
     resize(width: number, height: number) {
