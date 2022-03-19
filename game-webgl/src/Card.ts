@@ -1,6 +1,7 @@
 import { Alignment, Cube, Size, Location, Color } from "./Cube";
 import { ISceneObject } from "./ISceneObject";
 import { Plane } from "./Plane";
+import { Texture } from "./Texture";
 
 export class Card implements ISceneObject {
     private size: Size = [5, 10, 1];
@@ -11,7 +12,8 @@ export class Card implements ISceneObject {
         private readonly cube: Cube,
         size: Size,
         location: Location,
-        private readonly alignment: Alignment
+        private readonly alignment: Alignment,
+        private readonly texture: Texture
     ) {
         this.size = size;
         this.location = location;
@@ -46,18 +48,17 @@ export class Card implements ISceneObject {
         this.cube.move(this.location);
         this.cube.resize(this.size);
         this.cube.align(this.alignment);
-        let frontColor = this.frontColor;
-        if (this.isSelected) {
-            frontColor = [1, 1, 1];
-        }
-        this.cube.changeColors(
-            [0, 0, 0],
-            frontColor,
-            [0, 0, 1],
-            [0, 0, 1],
-            [0, 0, 1],
-            [0, 0, 1]
+        //  const entireTexture = [0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0];
+        this.cube.defineTextureCoord(
+            [0.5, 0.0, 1.0, 0.0, 1.0, 1.0, 0.5, 1.0],
+            [0.0, 0.0, 0.5, 0.0, 0.5, 1.0, 0.0, 1.0],
+            [0.0, 0.0, 0.01, 0.0, 0.01, 0.01, 0.0, 0.01],
+            [0.0, 0.0, 0.01, 0.0, 0.01, 0.01, 0.0, 0.01],
+            [0.0, 0.0, 0.01, 0.0, 0.01, 0.01, 0.0, 0.01],
+            [0.0, 0.0, 0.01, 0.0, 0.01, 0.01, 0.0, 0.01]
         );
+        this.texture.activate();
         this.cube.draw();
+        this.texture.deactivate();
     }
 }

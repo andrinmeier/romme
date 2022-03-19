@@ -37,7 +37,16 @@ export class RommeGame implements ISceneObject {
         const floorTexture = textureLoader.load(textureMap.FLOOR);
         const wallTexture = textureLoader.load(textureMap.WALL);
         const tableTexture = textureLoader.load(textureMap.TABLE);
-        this.room = new Room(cube, wallTexture, floorTexture, tableTexture);
+        const cardHeartTwoTexture = textureLoader.load(
+            textureMap.CARD_HEART_TWO
+        );
+        this.room = new Room(
+            cube,
+            wallTexture,
+            floorTexture,
+            tableTexture,
+            cardHeartTwoTexture
+        );
     }
 
     switchToLowerQuality(): void {

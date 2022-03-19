@@ -31,6 +31,7 @@ export class Wall implements ISceneObject {
         this.cube.resize(this.size);
         this.cube.align(this.alignment);
         this.cube.changeColor(this.color);
+        this.cube.resetTextureCoord();
         this.texture.activate();
         this.cube.draw();
         this.texture.deactivate();

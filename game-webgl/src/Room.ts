@@ -17,9 +17,10 @@ export class Room implements ISceneObject {
     private readonly card: Card;
     constructor(
         private readonly cube: Cube,
-        private readonly wallTexture: Texture,
-        private readonly floorTexture: Texture,
-        private readonly tableTexture: Texture
+        wallTexture: Texture,
+        floorTexture: Texture,
+        tableTexture: Texture,
+        cardHeartTwoTexture: Texture
     ) {
         this.leftWall = new Wall(
             cube,
@@ -73,7 +74,8 @@ export class Room implements ISceneObject {
             this.cube,
             [(2 * 5) / 3, 5, 0.1],
             [256, 118, 2],
-            [Angle.fromDegrees(-35), [1, 0, 0]]
+            [Angle.fromDegrees(-35), [1, 0, 0]],
+            cardHeartTwoTexture
         );
     }
 

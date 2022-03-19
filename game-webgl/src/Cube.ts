@@ -14,7 +14,7 @@ export class Cube {
     private color: Color = [1.0, 1.0, 0];
     private readonly bufferVertices: WebGLBuffer;
     private readonly bufferSides: WebGLBuffer;
-    private readonly textureCoords: WebGLBuffer;
+    private textureCoords: WebGLBuffer;
     private bufferColors: WebGLBuffer;
 
     constructor(
@@ -23,7 +23,6 @@ export class Cube {
     ) {
         this.bufferVertices = this.defineVertices();
         this.bufferSides = this.defineSides();
-        this.textureCoords = this.defineTextureCoord();
         this.changeColor([1.0, 1.0, 0]);
     }
 
@@ -248,62 +247,27 @@ export class Cube {
         return buffer;
     }
 
-    defineTextureCoord() {
-        const textureCoords = [
-            0.0,
-            0.0, // back
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0,
-            // front
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0,
-            // right
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0,
-            // left
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0,
-            // top
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0,
-            // bottom
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            1.0,
-            1.0,
-            0.0,
-            1.0
-        ];
+    resetTextureCoord() {
+        const entireTexture = [0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0];
+        this.defineTextureCoord(
+            entireTexture,
+            entireTexture,
+            entireTexture,
+            entireTexture,
+            entireTexture,
+            entireTexture
+        );
+    }
+
+    defineTextureCoord(
+        back: number[],
+        front: number[],
+        right: number[],
+        left: number[],
+        top: number[],
+        bottom: number[]
+    ) {
+        const textureCoords = back.concat(front, right, left, top, bottom);
         const buffer = this.context.createBuffer();
         this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);
         this.context.bufferData(
@@ -311,7 +275,7 @@ export class Cube {
             new Float32Array(textureCoords),
             this.context.STATIC_DRAW
         );
-        return buffer;
+        this.textureCoords = buffer;
     }
 
     defineNormals() {

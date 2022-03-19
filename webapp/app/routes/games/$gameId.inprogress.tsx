@@ -13,7 +13,6 @@ const GameScorePage = () => {
             const canvas = canvasRef.current as HTMLCanvasElement;
             const context = canvas.getContext("webgl2");
             const imageLoader = new ImageLoader();
-            const cardBack = await imageLoader.load("/textures/card_back.png");
             const cardHeartTwo = await imageLoader.load(
                 "/textures/card_heart_2.png"
             );
@@ -21,7 +20,6 @@ const GameScorePage = () => {
             const floor = await imageLoader.load("/textures/floor.png");
             const wall = await imageLoader.load("/textures/wall.png");
             const textureMap = new TextureMap();
-            textureMap.CARD_BACK = cardBack;
             textureMap.CARD_HEART_TWO = cardHeartTwo;
             textureMap.FLOOR = floor;
             textureMap.TABLE = table;
