@@ -5,6 +5,8 @@ import { HighDPICanvas } from "./HighDPICanvas";
 import { ViewMatrix } from "./ViewMatrix";
 import { Cube } from "./Cube";
 import { Room } from "./Room";
+import { TextureMap } from "./TextureMap";
+import { TextureLoader } from "./TextureLoader";
 
 export class RommeGame implements ISceneObject {
     private onScoreChanged: (newScore: number) => void;
@@ -18,14 +20,19 @@ export class RommeGame implements ISceneObject {
     constructor(
         context: WebGL2RenderingContext,
         shaderProgram: WebGLProgram,
-        private readonly canvas: HTMLCanvasElement
+        private readonly canvas: HTMLCanvasElement,
+        private readonly textureMap: TextureMap
     ) {
         this.viewMatrix = new ViewMatrix(context, shaderProgram);
         this.projection = new PerspectiveProjection(context, shaderProgram);
         this.highDPICanvas = new HighDPICanvas(this.canvas);
         this.desktopPlayer = new DesktopPlayer(canvas);
         const cube = new Cube(context, shaderProgram);
-        this.room = new Room(cube);
+        const textureLoader = new TextureLoader(context, shaderProgram);
+        const floorTexture = textureLoader.load(textureMap.FLOOR);
+        const wallTexture = textureLoader.load(textureMap.WALL);
+        const tableTexture = textureLoader.load(textureMap.TABLE);
+        this.room = new Room(cube, wallTexture, floorTexture, tableTexture);
     }
 
     switchToLowerQuality(): void {

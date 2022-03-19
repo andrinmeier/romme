@@ -4,6 +4,7 @@ import { Cube } from "./Cube";
 import { GameRay } from "./GameRay";
 import { ISceneObject } from "./ISceneObject";
 import { Table } from "./Table";
+import { Texture } from "./Texture";
 import { Wall } from "./Wall";
 
 export class Room implements ISceneObject {
@@ -14,53 +15,64 @@ export class Room implements ISceneObject {
     private readonly floor: Wall;
     private readonly table: Table;
     private readonly card: Card;
-    constructor(private readonly cube: Cube) {
+    constructor(
+        private readonly cube: Cube,
+        private readonly wallTexture: Texture,
+        private readonly floorTexture: Texture,
+        private readonly tableTexture: Texture
+    ) {
         this.leftWall = new Wall(
             cube,
             [256, 256, 0],
             [0, 0, -1],
             [Angle.fromDegrees(90), [0, 1, 0]],
-            [1.0, 0, 0]
+            [1.0, 0, 0],
+            wallTexture
         );
         this.rightWall = new Wall(
             cube,
             [256, 256, 1],
             [256, 0, -256],
             [Angle.fromDegrees(-90), [0, 1, 0]],
-            [1.0, 1.0, 0]
+            [1.0, 1.0, 0],
+            wallTexture
         );
         this.frontWall = new Wall(
             cube,
             [256, 256, 1],
             [0, 0, -256],
             [Angle.fromDegrees(0), [0, 0, 0]],
-            [1.0, 0, 1.0]
+            [1.0, 0, 1.0],
+            wallTexture
         );
         this.ceiling = new Wall(
             cube,
             [256, 256, 1],
             [0, 256, -256],
             [Angle.fromDegrees(90), [1, 0, 0]],
-            [1.0, 0.5, 1.0]
+            [1.0, 0.5, 1.0],
+            wallTexture
         );
         this.floor = new Wall(
             cube,
             [256, 256, 1],
             [0, 0, 0],
             [Angle.fromDegrees(-90), [1, 0, 0]],
-            [1.0, 1.0, 1.0]
+            [1.0, 1.0, 1.0],
+            floorTexture
         );
         this.table = new Table(
             cube,
             [200, 256, 1],
             [28, 25, -50],
             [Angle.fromDegrees(-90), [1, 0, 0]],
-            [155 / 255, 103 / 255, 60 / 255]
+            [155 / 255, 103 / 255, 60 / 255],
+            tableTexture
         );
         this.card = new Card(
             this.cube,
             [(2 * 5) / 3, 5, 0.1],
-            [256, 115, 2],
+            [256, 118, 2],
             [Angle.fromDegrees(-35), [1, 0, 0]]
         );
     }

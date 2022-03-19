@@ -14,6 +14,7 @@ export class Cube {
     private color: Color = [1.0, 1.0, 0];
     private readonly bufferVertices: WebGLBuffer;
     private readonly bufferSides: WebGLBuffer;
+    private readonly textureCoords: WebGLBuffer;
     private bufferColors: WebGLBuffer;
 
     constructor(
@@ -22,6 +23,7 @@ export class Cube {
     ) {
         this.bufferVertices = this.defineVertices();
         this.bufferSides = this.defineSides();
+        this.textureCoords = this.defineTextureCoord();
         this.changeColor([1.0, 1.0, 0]);
     }
 
@@ -48,7 +50,7 @@ export class Cube {
         );
     }
 
-    defineVertices() {
+    private defineVertices() {
         // define the vertices of the cube
         const vertices = [
             // back
@@ -140,7 +142,7 @@ export class Cube {
         return buffer;
     }
 
-    defineSides() {
+    private defineSides() {
         // define the edges for the cube, there are 12 edges in a cube
         const vertexIndices = [
             0,
@@ -209,7 +211,7 @@ export class Cube {
         );
     }
 
-    defineColors(
+    private defineColors(
         backColor,
         frontColor,
         rightColor,
@@ -431,7 +433,6 @@ export class Cube {
             this.shaderProgram,
             "color"
         );
-
         this.context.bindBuffer(this.context.ARRAY_BUFFER, this.bufferColors);
         this.context.vertexAttribPointer(
             colorId,
@@ -442,6 +443,22 @@ export class Cube {
             0
         );
         this.context.enableVertexAttribArray(colorId);
+
+        // texture coordinates
+        const textureCoordId = this.context.getAttribLocation(
+            this.shaderProgram,
+            "textureCoord"
+        );
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, this.textureCoords);
+        this.context.vertexAttribPointer(
+            textureCoordId,
+            2,
+            this.context.FLOAT,
+            false,
+            0,
+            0
+        );
+        this.context.enableVertexAttribArray(textureCoordId);
 
         // bind the element array
         this.context.bindBuffer(

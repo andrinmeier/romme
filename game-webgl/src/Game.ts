@@ -3,6 +3,7 @@ import { GameLoop } from "./GameLoop";
 import { Scene } from "./Scene";
 import { loadAndCompileShaders } from "./ShaderUtils";
 import { RommeGame } from "./RommeGame";
+import { TextureMap } from "./TextureMap";
 
 export class Game {
     private onScoreChanged: (newScore: number) => void;
@@ -13,8 +14,9 @@ export class Game {
     private fpsRecorder: FPSRecorder;
 
     constructor(
-        readonly context: WebGL2RenderingContext,
-        readonly canvas: HTMLCanvasElement
+        private readonly context: WebGL2RenderingContext,
+        private readonly canvas: HTMLCanvasElement,
+        private readonly textureMap: TextureMap
     ) {
         this.shaderProgram = loadAndCompileShaders(this.context);
     }
@@ -33,7 +35,8 @@ export class Game {
         this.rommeGame = new RommeGame(
             this.context,
             this.shaderProgram,
-            this.canvas
+            this.canvas,
+            this.textureMap
         );
         this.fpsRecorder = new FPSRecorder();
         this.fpsRecorder.registerOnLowFPSDetected(this.onLowFPSDetected);

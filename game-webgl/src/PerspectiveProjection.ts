@@ -18,7 +18,7 @@ export class PerspectiveProjection {
     resize(width: number, height: number) {
         mat4.perspective(
             this.projectionMatrix,
-            Angle.fromDegrees(95).rad,
+            Angle.fromDegrees(55).rad,
             width / height,
             5,
             256 + 10 * 5

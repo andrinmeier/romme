@@ -17,7 +17,7 @@ export class ViewMatrix {
     }
 
     resize(width: number, height: number): void {
-        const cameraZ = 5;
+        const cameraZ = 10;
         this.eye = [width / 2, height / 2, cameraZ];
         mat4.lookAt(
             this.viewMatrix,
