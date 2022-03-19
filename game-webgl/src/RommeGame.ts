@@ -23,9 +23,14 @@ export class RommeGame implements ISceneObject {
         private readonly canvas: HTMLCanvasElement,
         private readonly textureMap: TextureMap
     ) {
-        this.viewMatrix = new ViewMatrix(context, shaderProgram);
         this.projection = new PerspectiveProjection(context, shaderProgram);
         this.highDPICanvas = new HighDPICanvas(this.canvas);
+        this.viewMatrix = new ViewMatrix(
+            context,
+            shaderProgram,
+            this.highDPICanvas.getLogicalWidth(),
+            this.highDPICanvas.getLogicalHeight()
+        );
         this.desktopPlayer = new DesktopPlayer(canvas);
         const cube = new Cube(context, shaderProgram);
         const textureLoader = new TextureLoader(context, shaderProgram);

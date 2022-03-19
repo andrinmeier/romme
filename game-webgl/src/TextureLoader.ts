@@ -25,14 +25,28 @@ export class TextureLoader {
         );
         this.context.texParameteri(
             this.context.TEXTURE_2D,
-            this.context.TEXTURE_MAG_FILTER,
-            this.context.LINEAR
-        );
-        this.context.texParameteri(
-            this.context.TEXTURE_2D,
             this.context.TEXTURE_MIN_FILTER,
             this.context.LINEAR_MIPMAP_NEAREST
         );
+        this.context.texParameteri(
+            this.context.TEXTURE_2D,
+            this.context.TEXTURE_MAG_FILTER,
+            this.context.LINEAR
+        );
+        const ext =
+            this.context.getExtension("EXT_texture_filter_anisotropic") ||
+            this.context.getExtension("MOZ_EXT_texture_filter_anisotropic") ||
+            this.context.getExtension("WEBKIT_EXT_texture_filter_anisotropic");
+        if (ext) {
+            const max = this.context.getParameter(
+                ext.MAX_TEXTURE_MAX_ANISOTROPY_EXT
+            );
+            this.context.texParameterf(
+                this.context.TEXTURE_2D,
+                ext.TEXTURE_MAX_ANISOTROPY_EXT,
+                max
+            );
+        }
         this.context.generateMipmap(this.context.TEXTURE_2D);
         this.context.bindTexture(this.context.TEXTURE_2D, null);
     }

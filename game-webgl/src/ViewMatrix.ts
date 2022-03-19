@@ -7,22 +7,25 @@ export class ViewMatrix {
     private readonly matrixId;
     private viewMatrix: mat4;
     private eye: [number, number, number];
+    private readonly cameraZ = 10;
 
     constructor(
         private readonly context: WebGL2RenderingContext,
-        shaderProgram: WebGLProgram
+        shaderProgram: WebGLProgram,
+        initialWidth: number,
+        initialHeight: number
     ) {
         this.matrixId = context.getUniformLocation(shaderProgram, "viewMatrix");
         this.viewMatrix = mat4.create();
+        this.eye = [initialWidth / 2, initialHeight / 2, this.cameraZ];
     }
 
     resize(width: number, height: number): void {
-        const cameraZ = 10;
-        this.eye = [width / 2, height / 2, cameraZ];
+        this.eye = [width / 2, height / 2, this.cameraZ];
         mat4.lookAt(
             this.viewMatrix,
             this.eye,
-            [width / 2, 0.1 * height, -(150 + cameraZ)],
+            [width / 2, 0.1 * height, -(150 + this.cameraZ)],
             [0, 1, 0]
         );
     }
